@@ -1,4 +1,5 @@
 # Chat Websocket Laravel 9 & Pusher
+Video : [Realtime Chat Websocket Laravel 9 Pusher - YouTube](https://youtu.be/VBHonaM9C4k) 
 
 ### Install laravel 
 ```
@@ -43,14 +44,11 @@ php artisan make:event ChatEvent
 class ChatEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
     public $message;
-
     public function __construct($message)
     {
         $this->message = $message;
     }
-
     public function broadcastOn()
     {
         return new Channel('channel-chat');
@@ -67,7 +65,6 @@ class ChatEvent implements ShouldBroadcast
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
@@ -84,7 +81,6 @@ class ChatEvent implements ShouldBroadcast
                             <input type="text" class="form-control" placeholder="Name" id="name">
                         </div>
                         <div class="form-group" id="data-message">
-
                         </div>
                         <div class="form-group">
                             <textarea type="text" class="form-control" placeholder="Message" id="message"></textarea>
@@ -102,20 +98,16 @@ class ChatEvent implements ShouldBroadcast
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
     <script src="{{ url('js/app.js') }}"></script>
     <script>
     $(function(){
         const Http = window.axios;
         const Echo = window.Echo;
-
         let name = $('#name');
         let message = $('#message');
-
         $('input, textarea').keyup(function(){
             $(this).removeClass('is-invalid');
         });
-
         $('button').click(function(){
             if (name.val() == '') {
                 name.addClass('is-invalid');
@@ -130,13 +122,11 @@ class ChatEvent implements ShouldBroadcast
                 })
             }
         });
-
         var channel = Echo.channel('channel-chat');
         channel.listen('ChatEvent', function(data) {
             $('#data-message')
             .append(`<strong>${data.message.name}</strong> : ${data.message.message} <br>`);
         });
-
     })
     </script>
   </body>
@@ -158,18 +148,16 @@ Route::post('send', function(Request $request){
         'name'=>'required',
         'message'=>'required'
     ]);
-
     $message = [
         'name'=>$request->name,
         'message'=>$request->message,
     ];
-
     ChatEvent::dispatch($message);
 });
 ```
 
 
-### Setup resrouces/js/bootstrap.js
+### Setup resouces/js/bootstrap.js
 Uncomment laravel Echo
 
 ### Run Dev
